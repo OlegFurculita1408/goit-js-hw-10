@@ -25,7 +25,8 @@ fetchBreeds()
     .catch((err) => console.log(err))
 
 function createOptionSelect(arr) {
-    return arr.map(({name, id}) => `<option value="${id}">${name}</option>`).join('');
+    return arr.map(({name, reference_image_id}) => `
+        <option value="${reference_image_id}">${name}</option>`).join('');
 }
 // ----------------------------------------------------------------------------------
 
@@ -35,12 +36,12 @@ select.addEventListener('change', handlerSearch);
         evt.preventDefault();
         const { value } = evt.currentTarget;
         fetchCatByBreed(value)
-            .then((data) => div.insertAdjacentHTML('beforeend', createMarkup(data)))
+            .then((data) => div.innerHTML = createMarkup(data))
             .catch((err) => console.log(err))
     }
 
 function fetchCatByBreed(breendId) {
-    return fetch(`${BASE_URL}${END_POINT_IMG}?api_key=${API_KEY}?breed_ids=${breendId}`).then(resp => {
+    return fetch(`${BASE_URL}images/${breendId}`).then(resp => {
         if(!resp.ok){
             throw new Error(resp.statusText)
         }
@@ -51,7 +52,8 @@ function fetchCatByBreed(breendId) {
 };
     
 function createMarkup(array) {
-    return array.map(({ name, temperament, origin, description, url}) => `
+    console.log(array)
+    return array.map(({ url, breeds: { name, temperament, origin, description } }) => `
         <img src="${url}" alt="cat" width="400px">
         <h2 class="name">${name}</h2>
         <h3>${origin}</h3>
