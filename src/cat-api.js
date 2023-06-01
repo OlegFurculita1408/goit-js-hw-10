@@ -51,12 +51,12 @@ function fetchCatByBreed(breendId) {
     );
 };
     
-function createMarkup(array) {
-    console.log(array)
-    return array.map(({ url, breeds: { name, temperament, origin, description } }) => `
-        <img src="${url}" alt="cat" width="400px">
+function createMarkup(obj) {
+    const { name, origin, temperament, description } = obj.breeds[0]
+    return `
+        <img src="${obj.url}" alt="cat" width="400px">
         <h2 class="name">${name}</h2>
         <h3>${origin}</h3>
         <h3 class="origin">${temperament}</h3>
-        <p class="description">${description}</p>`).join('');
+        <p class="description">${description}</p>`;
 }
