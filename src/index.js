@@ -9,7 +9,8 @@ const error = document.querySelector('.error');
 
 fetchBreeds()
     .then((data) => select.insertAdjacentHTML('beforeend', createOptionSelect(data)))
-    .catch((err) => console.log(err))
+    // .catch((err) => console.log(err))
+    .catch((err) => error.classList.remove("error"))
 
 function createOptionSelect(arr) {
     return arr.map(({name, reference_image_id}) => `
@@ -18,17 +19,21 @@ function createOptionSelect(arr) {
 
 select.addEventListener('change', handlerSearch);
 
+function loaderShou() {
+    loader.classList.remove('loader');
+}
+
     function handlerSearch(evt) {
         evt.preventDefault();
         const { value } = evt.currentTarget;
+        loaderShou()
         fetchCatByBreed(value)
             .then((data) => div.innerHTML = createMarkup(data))
-            .catch((err) => console.log(err))
-        if (value === 0 ){
-            error.classList.remove("error")
-        }
+            // .catch((err) => console.log(err))
+            .catch((err) => error.classList.remove("error"))
     }
         
+
 function createMarkup(obj) {
     const { name, origin, temperament, description } = obj.breeds[0]
     return `
