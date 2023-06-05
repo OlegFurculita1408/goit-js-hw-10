@@ -23,16 +23,15 @@ function loaderShou() {
     loader.classList.remove('loader');
 }
 
+
     function handlerSearch(evt) {
         evt.preventDefault();
         const { value } = evt.currentTarget;
         loaderShou()
         fetchCatByBreed(value)
-            .then((data) => div.innerHTML = createMarkup(data))
-            // .catch((err) => console.log(err))
-            .catch((err) => error.classList.remove("error"))
+            .then((data) => div.innerHTML = createMarkup(data), error.classList.add('error'))
+            .catch((err) => error.classList.remove("error"), div.innerHTML = '')
     }
-        
 
 function createMarkup(obj) {
     const { name, origin, temperament, description } = obj.breeds[0]
