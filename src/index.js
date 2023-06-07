@@ -9,7 +9,6 @@ const error = document.querySelector('.error');
 
 fetchBreeds()
     .then((data) => select.insertAdjacentHTML('beforeend', createOptionSelect(data)))
-    // .catch((err) => console.log(err))
     .catch((err) => error.classList.remove("error"))
 
 function createOptionSelect(arr) {
